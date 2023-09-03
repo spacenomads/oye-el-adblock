@@ -1,0 +1,39 @@
+.oyeElAdBlock {
+	background-color: white;
+	bottom: 1em;
+	box-shadow: 0 2px 5px rgba(0,0,0,.3);
+	box-sizing: border-box;
+	max-width: 50vw;
+	position: fixed;
+	right: 1em;
+	text-align: right;
+}
+
+.oyeElAdBlock::after {
+	--offset: 0;
+	border: 4px solid deeppink;
+	bottom: var(--offset);
+	content: '';
+	left: var(--offset);
+	pointer-events: none;
+	position: absolute;
+	right: var(--offset);
+	top: var(--offset);
+}
+
+.oyeElAdBlock__wrapper {
+	padding: 1em;
+}
+
+.oyeElAdBlock__title {
+	font-size: inherit;
+	margin: 0 0 1em;
+}
+
+.oyeElAdBlock__paragraph {
+	margin: 0;
+}
+
+.oyeElAdBlock__paragraph + .oyeElAdBlock__paragraph {
+	margin-top: 1em;
+}
