@@ -21,6 +21,10 @@
 	top: var(--offset);
 }
 
+.🤠--hidden {
+	display: none;
+}
+
 .🤠__wrapper {
 	padding: 1em;
 }
@@ -37,3 +41,17 @@
 .🤠__paragraph + .🤠__paragraph {
 	margin-top: 1em;
 }
+
+.🤠__close {}
+
+.🤠__sr-only {
+	clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+

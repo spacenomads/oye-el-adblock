@@ -84,10 +84,10 @@ class OyeElAdblock {
 
 	getContentTemplate(content) {
 		const {custom_class_name} = content;
-		const newElement = document.createElement('SECTION')
+		const newElement = document.createElement('section')
 		newElement.className = `${this.NAMESPACE} js-${this.NAMESPACE} ${content.custom_class_name} ${this.AD_TARGET_CLASSES.join(' ')}`
 
-		const wrapper = document.createElement('DIV')
+		const wrapper = document.createElement('div')
 		wrapper.classList.add(`${this.NAMESPACE}__wrapper`)
 		wrapper.classList.add(`${custom_class_name}__wrapper`)
 
@@ -104,11 +104,23 @@ class OyeElAdblock {
 			wrapper.innerHTML += extraLinkTemplate
 		}
 
-		newElement.append(wrapper)
+		const closeButton = document.createElement('button')
+		closeButton.type = 'button'
+		closeButton.classList.add(`${this.NAMESPACE}__close`)
+		closeButton.classList.add(`js-${this.NAMESPACE}-close`)
+		closeButton.classList.add(`${custom_class_name}__close`)
+		closeButton.innerHTML = `Cerrar <span class="${this.NAMESPACE}__sr-only">aviso de que no se ha detectado Adblock</span>`;
+
+		newElement.append(wrapper, closeButton)
 
 		return newElement;
 	}
 
+
+	closeAdBlockWarning(btn) {
+		const adWarningElement = btn.closest(`.js-${this.NAMESPACE}`)
+		adWarningElement.classList.add(`${this.NAMESPACE}--hidden`)
+	}
 
 
 
@@ -116,9 +128,12 @@ class OyeElAdblock {
 	init() {
 		const oyeElAdBlockExists = !!document.querySelector(`.js-${this.NAMESPACE}`)
 		const newAdElement = this.getContentTemplate(this.config)
-		newAdElement.append();
 
-		!oyeElAdBlockExists && document.body.append(newAdElement)
+		if (!oyeElAdBlockExists) {
+			document.body.append(newAdElement)
+			const closeButton = document.querySelector(`.js-${this.NAMESPACE}-close`)
+			closeButton.addEventListener('click', (event) => this.closeAdBlockWarning(event.currentTarget))
+		}
 		const oyeElAdBlockElement = document.querySelector(`.js-${this.NAMESPACE}`)
 		this.hasAdBlockActive = !!oyeElAdBlockElement.offsetHeight
 		console.log(!this.hasAdBlockActive ? '😎 El adBlocker está bloqueando' : '🤬 Ni está ni se le espera')
