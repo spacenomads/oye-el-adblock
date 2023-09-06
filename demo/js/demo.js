@@ -2,4 +2,4 @@ const userConfig = {
 	custom_class_name: '🌵'
 }
 
-const adBlockWarning = new OyeElAdblock(userConfig)
+const adBlockWarning = new OyeElAdblock()

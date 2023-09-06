@@ -64,14 +64,18 @@ class OyeElAdblock {
 		]
 		this.config = {
 			title: '🤠 Oye, que no tienes Adblock!',
-			html_text: [
+			text: [
 				'Bla, bla, bla, bloqueador, privacidad, lama de cántaro y aquí puedes leer por qué lo necesitas y algunas extensiones recomendadas.',
 			],
 			link: {
 				url: '#adblock',
-				text: 'Por qué necesito un AdBlocker',
+				label: 'Por qué necesito un AdBlocker',
 			},
-			custom_class_name: 'paque'
+			close_btn: {
+				label: 'Cerrar ',
+				sr_label: 'aviso de que no se ha detectado Adblock.'
+			},
+			custom_class_name: 'my-custom-class'
 		}
 
 		if (typeof userConfig === 'object') {
@@ -82,36 +86,56 @@ class OyeElAdblock {
 	}
 
 
+	getCustomClass(em) {
+		if (!em) return this.config.custom_class_name ? `${this.config.custom_class_name}` : '';
+		return this.config.custom_class_name ? `${this.config.custom_class_name}__${em}` : '';
+	}
+
+
 	getContentTemplate(content) {
 		const {custom_class_name} = content;
 		const newElement = document.createElement('section')
-		newElement.className = `${this.NAMESPACE} js-${this.NAMESPACE} ${content.custom_class_name} ${this.AD_TARGET_CLASSES.join(' ')}`
+		newElement.className = `${this.NAMESPACE} js-${this.NAMESPACE} ${this.getCustomClass()} ${this.AD_TARGET_CLASSES.join(' ')}`
 
 		const wrapper = document.createElement('div')
 		wrapper.classList.add(`${this.NAMESPACE}__wrapper`)
-		wrapper.classList.add(`${custom_class_name}__wrapper`)
+		const wrapperCustomClassList = this.getCustomClass('wrapper')
+		wrapperCustomClassList && wrapper.classList.add(wrapperCustomClassList)
 
-		const title = `<h2 class="${this.NAMESPACE}__title ${custom_class_name}__title">${content.title}</h2>`
+		const title = `<h2 class="${this.NAMESPACE}__title ${this.getCustomClass('title')}">${content.title}</h2>`
 		wrapper.innerHTML += title
 
-		for (const p of content.html_text) {
-			const template = `<p class="${this.NAMESPACE}__paragraph ${custom_class_name}__paragraph">${p}</p>`
+		for (const p of content.text) {
+			const template = `<p class="${this.NAMESPACE}__paragraph ${this.getCustomClass('paragraph')}">${p}</p>`
 			wrapper.innerHTML += template
 		}
 
 		if (content.link.url && content.link.text) {
-			const extraLinkTemplate = `<p class="${this.NAMESPACE}__paragraph ${custom_class_name}__paragraph"><a href="${content.link.url}" class="${this.NAMESPACE}__link ${custom_class_name}__link">${content.link.text}</a></p>`
+			const extraLinkTemplate = `<p class="${this.NAMESPACE}__paragraph ${this.getCustomClass('paragraph')}"><a href="${content.link.url}" class="${this.NAMESPACE}__link ${this.getCustomClass('link')}">${content.link.label}</a></p>`
 			wrapper.innerHTML += extraLinkTemplate
 		}
 
-		const closeButton = document.createElement('button')
-		closeButton.type = 'button'
-		closeButton.classList.add(`${this.NAMESPACE}__close`)
-		closeButton.classList.add(`js-${this.NAMESPACE}-close`)
-		closeButton.classList.add(`${custom_class_name}__close`)
-		closeButton.innerHTML = `Cerrar <span class="${this.NAMESPACE}__sr-only">aviso de que no se ha detectado Adblock</span>`;
+		newElement.append(wrapper)
 
-		newElement.append(wrapper, closeButton)
+		if (content.close_btn && (content.close_btn?.label || content.close_btn?.sr_label)) {
+
+			const closeButton = document.createElement('button')
+			closeButton.type = 'button'
+			closeButton.classList.add(`${this.NAMESPACE}__close`)
+			closeButton.classList.add(`js-${this.NAMESPACE}-close`)
+			const closeButtonCustomClass = this.getCustomClass('close')
+			closeButtonCustomClass && closeButton.classList.add(closeButtonCustomClass)
+
+			const buttonLabel = document.createTextNode(content.close_btn.label || '')
+			const buttonSrLabel = document.createElement('span')
+			buttonSrLabel.classList.add(`${this.NAMESPACE}__sr-only`)
+			buttonSrLabel.textContent = content.close_btn.sr_label || ''
+
+			closeButton.append(buttonLabel, buttonSrLabel)
+			closeButton.addEventListener('click', (event) => this.closeAdBlockWarning(event.currentTarget))
+
+			newElement.append(closeButton)
+		}
 
 		return newElement;
 	}
@@ -131,11 +155,10 @@ class OyeElAdblock {
 
 		if (!oyeElAdBlockExists) {
 			document.body.append(newAdElement)
-			const closeButton = document.querySelector(`.js-${this.NAMESPACE}-close`)
-			closeButton.addEventListener('click', (event) => this.closeAdBlockWarning(event.currentTarget))
+
+
 		}
 		const oyeElAdBlockElement = document.querySelector(`.js-${this.NAMESPACE}`)
 		this.hasAdBlockActive = !!oyeElAdBlockElement.offsetHeight
-		console.log(!this.hasAdBlockActive ? '😎 El adBlocker está bloqueando' : '🤬 Ni está ni se le espera')
 	}
 }
