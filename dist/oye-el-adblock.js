@@ -63,19 +63,18 @@ class OyeElAdblock {
 			'yxd-jd',
 		]
 		this.config = {
-			title: '🤠 Oye, que no tienes Adblock!',
+			title: 'Oye, el adBlock!',
 			text: [
-				'Bla, bla, bla, bloqueador, privacidad, lama de cántaro y aquí puedes leer por qué lo necesitas y algunas extensiones recomendadas.',
+				'Pero bueno, que no se puede ir por la vida sin un bloqueador de publicidad!',
 			],
 			link: {
 				url: '#adblock',
-				label: 'Por qué necesito un AdBlocker',
+				label: 'Por qué necesito uno?',
 			},
 			close_btn: {
 				label: 'Cerrar ',
-				sr_label: 'aviso de que no se ha detectado Adblock.'
+				sr_label: 'aviso de que no se ha detectado adBlock'
 			},
-			custom_class_name: 'my-custom-class'
 		}
 
 		if (typeof userConfig === 'object') {
@@ -87,15 +86,17 @@ class OyeElAdblock {
 
 
 	getCustomClass(em) {
-		if (!em) return this.config.custom_class_name ? `${this.config.custom_class_name}` : '';
-		return this.config.custom_class_name ? `${this.config.custom_class_name}__${em}` : '';
+		if (!em) return this.config.custom_class_name ? `${this.config.custom_class_name}` : ''
+		return this.config.custom_class_name ? `${this.config.custom_class_name}__${em}` : ''
 	}
 
 
 	getContentTemplate(content) {
-		const {custom_class_name} = content;
-		const newElement = document.createElement('section')
+		const {custom_class_name} = content
+		const newElement = document.createElement('aside')
 		newElement.className = `${this.NAMESPACE} js-${this.NAMESPACE} ${this.getCustomClass()} ${this.AD_TARGET_CLASSES.join(' ')}`
+		newElement.setAttribute('aria-hidden', 'false')
+		newElement.setAttribute('role', 'alert')
 
 		const wrapper = document.createElement('div')
 		wrapper.classList.add(`${this.NAMESPACE}__wrapper`)
@@ -110,8 +111,8 @@ class OyeElAdblock {
 			wrapper.innerHTML += template
 		}
 
-		if (content.link.url && content.link.text) {
-			const extraLinkTemplate = `<p class="${this.NAMESPACE}__paragraph ${this.getCustomClass('paragraph')}"><a href="${content.link.url}" class="${this.NAMESPACE}__link ${this.getCustomClass('link')}">${content.link.label}</a></p>`
+		if (content.link && content.link.url && content.link.label) {
+			const extraLinkTemplate = `<p class="${this.NAMESPACE}__paragraph ${this.NAMESPACE}__paragraph--extra-link ${this.getCustomClass('paragraph')} ${this.getCustomClass('paragraph--extra-link')}"><a href="${content.link.url}" class="${this.NAMESPACE}__link ${this.getCustomClass('link')}">${content.link.label}</a></p>`
 			wrapper.innerHTML += extraLinkTemplate
 		}
 
@@ -129,24 +130,26 @@ class OyeElAdblock {
 			const buttonLabel = document.createTextNode(content.close_btn.label || '')
 			const buttonSrLabel = document.createElement('span')
 			buttonSrLabel.classList.add(`${this.NAMESPACE}__sr-only`)
+			const srOnlyCustomClass = this.getCustomClass('sr-only')
+			srOnlyCustomClass && buttonSrLabel.classList.add(srOnlyCustomClass)
 			buttonSrLabel.textContent = content.close_btn.sr_label || ''
 
+			// TODO: No añadir el span de screen reader si no hay contenido.
 			closeButton.append(buttonLabel, buttonSrLabel)
 			closeButton.addEventListener('click', (event) => this.closeAdBlockWarning(event.currentTarget))
 
 			newElement.append(closeButton)
 		}
 
-		return newElement;
+		return newElement
 	}
 
 
 	closeAdBlockWarning(btn) {
 		const adWarningElement = btn.closest(`.js-${this.NAMESPACE}`)
+		adWarningElement.setAttribute('aria-hidden', true)
 		adWarningElement.classList.add(`${this.NAMESPACE}--hidden`)
 	}
-
-
 
 
 	init() {
@@ -159,6 +162,7 @@ class OyeElAdblock {
 
 		}
 		const oyeElAdBlockElement = document.querySelector(`.js-${this.NAMESPACE}`)
-		this.hasAdBlockActive = !!oyeElAdBlockElement.offsetHeight
+		this.hasAdBlockActive = !Boolean(oyeElAdBlockElement.offsetHeight)
+		oyeElAdBlockElement.setAttribute('aria-hidden', this.hasAdBlockActive)
 	}
 }
