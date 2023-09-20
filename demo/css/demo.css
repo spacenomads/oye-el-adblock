@@ -1,0 +1,31 @@
+.demo {
+	font-family: bitter, helvetica, arial, sans-serif;
+	line-height: 1.5;
+}
+
+.demo__main {
+	margin: 0 calc(25/16 * 1rem);
+	padding: calc(25/16 * 1rem);
+}
+
+@media screen and (min-width: 768px) {
+	.demo__main {
+		padding: calc(50/16 * 1rem);
+		max-width: calc(702/16 * 1rem);
+		margin: 0 auto;
+	}
+}
+
+.demo__title {}
+
+.demo__title::after {
+	content: '---';
+	display: block;
+	color: #008aff;
+}
+
+.demo__content {}
+
+.demo__link {
+	color: #008aff;
+}

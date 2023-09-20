@@ -1,4 +1,4 @@
-# Docs
+# Documentación
 
 [← Volver](./README.md)
 
