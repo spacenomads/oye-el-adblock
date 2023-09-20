@@ -1,6 +1,6 @@
 # Documentación
 
-[← Volver](./README.md)
+[← Volver](./)
 
 ## Cómo se instala
 
