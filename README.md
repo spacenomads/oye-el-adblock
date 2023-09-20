@@ -1,24 +1,19 @@
-# Oye, el Adblock
-@20 de septiembre de 2023 - v1.0.0
+![Imagen de presentación del plugin, centrado sobre un fondo blanco hueso aparece el emoji vaquero con su sombrero vaquero, pero con parche pirata, con un bocadillo que en letras gordicas dice «Oye, el adBlock!»](./assets/img/header.jpg)
 
-![Oye, el adBlock!](./assets/img/header.jpg)
+<small>@20 de septiembre de 2023 - v1.0.0</small>
+# Oye, el Adblock
 
 **Qué tal un plugin que te avise si NO tienes instalado un adBlock?**
 
 Hace unos días vi que [Stefan Bohacek](https://stefanbohacek.com/) tiene en su web una alerta que aparece si entras sin un bloqueador de publicidad y me pareció una vuelta interesante: **avisar de que así no se puede ir por la vida y concienciar de las ventajas que tiene más allá de la obvia de que no nos coma la publicidad**.
 
-<img src="./assets/img/stefam-bohacek-screenshot.png" alt="" width="300">
+<img src="./assets/img/stefam-bohacek-screenshot.png" alt="Captura de la página personal de Stefan Bohacek, donde se puede ver abajo de la página un banner con su borde negro y fondo blanco de que no se ha detectado un bloqueador de publicidad y que así no se puede ir por la vida. Tiene además un enlace para explicar mejor el tema." width="300">
 
 Stefan ha hecho [un plugin de wordpress](https://github.com/stefanbohacek/detect-missing-adblocker), y yo quería hacer algo parecido, pero sin wp, claro :) **Un plugin de JS al que le puedo pasar una configuración mínima para personalizarlo**.
 
 ## Ad-blockers soportados
 
-<img src="./assets/img/icons/ublock-origin-128.png" alt="uBlock Origin" width="50">
-<img src="./assets/img/icons/adblock-plus-128.png" alt="AdBlock Plus" width="50">
-<img src="./assets/img/icons/vivaldi-128.png" alt="Adblock integrado de Vivaldi" width="50">
-<img src="./assets/img/icons/ghostery-128.png" alt="Ghostery" width="50">
-<img src="./assets/img/icons/adguard-128.png" alt="AdGuard (safari)" width="50">
-
+<img src="./assets/img/icons/ublock-origin-128.png" alt="uBlock Origin" width="50"> <img src="./assets/img/icons/adblock-plus-128.png" alt="AdBlock Plus" width="50"> <img src="./assets/img/icons/vivaldi-128.png" alt="Adblock integrado de Vivaldi" width="50"> <img src="./assets/img/icons/ghostery-128.png" alt="Ghostery" width="50"> <img src="./assets/img/icons/adguard-128.png" alt="AdGuard (safari)" width="50">
 
 ## 🤔 Y si no funciona con mi ad-blocker?
 

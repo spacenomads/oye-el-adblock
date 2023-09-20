@@ -68,7 +68,7 @@ class OyeElAdblock {
 				'Pero bueno, que no se puede ir por la vida sin un bloqueador de publicidad!',
 			],
 			link: {
-				url: '#adblock',
+				url: 'https://github.com/spacenomads/oye-el-adblock/blob/main/por-que-necesito-un-adblock.md',
 				label: 'Por qué necesito uno?',
 			},
 			close_btn: {
